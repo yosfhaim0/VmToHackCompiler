@@ -197,9 +197,15 @@ object Constants {
       |M=M+1
       |""".stripMargin
 
-  val POP_POINTER: String = //TODO
+  val POP_POINTER: String = //YOSEF DO
     """
-      |
+      |@SP
+      |A=M-1
+      |D=M
+      |@THIS
+      |M=D
+      |@SP
+      |M=M-1
       |""".stripMargin
 
   val PUSH_STATIC: String =

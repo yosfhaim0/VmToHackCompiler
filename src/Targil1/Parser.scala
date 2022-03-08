@@ -24,7 +24,7 @@ object Parser {
   def getCommandType(): Unit = {
     val a = (CurCommand.split(" ")) (0)
     a match {
-      case "push" =>
+      case "push" => Constants.CommandType.C_PUSH
     }
   }
 
