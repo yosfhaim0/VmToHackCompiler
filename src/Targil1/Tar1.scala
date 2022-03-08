@@ -11,7 +11,7 @@ object Tar1 {
     val c = new CodeWriter(file: File)
 
     //for (command <- Constants.CommandType.values) println(command.toString)
-    println(Constants.Push_Constant)
+    println(Constants.Add)
   }
 
 
