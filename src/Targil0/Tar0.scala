@@ -10,7 +10,7 @@ import java.io._
 import scala.util.Using
 
 
-object main {
+object Tar0 {
 
   // global variable for sell calc
   var sumSell: Float = 0

@@ -3,3 +3,5 @@
 /.idea/
 /filesForTargil0.asm
 /VmToHackCompiler.iml
+/src/Targil0/InputB.vm
+/src/Targil0/InputA.vm
