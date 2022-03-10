@@ -177,18 +177,20 @@ object Constants {
 
   val Pop_Constant: String =
     """
-      |@{value}
-      |D=A
       |@SP
+      |M=M-1
       |A=M
+      |D=M
+      |@{value}
       |M=D
-      |@SP
-      |M=M+1
       |""".stripMargin
 
   val PUSH_POINTER: String =
     """
       |@{index}
+      |D=A
+      |@3
+      |A=A+D
       |D=M
       |@SP
       |A=M
@@ -197,15 +199,16 @@ object Constants {
       |M=M+1
       |""".stripMargin
 
-  val POP_POINTER: String = //YOSEF DO
+  //'A=A+index' - invalid command, need to support with code
+  val POP_POINTER: String = //YOSEF CAPARA ALECHA
     """
       |@SP
-      |A=M-1
-      |D=M
-      |@THIS
-      |M=D
-      |@SP
       |M=M-1
+      |A=M
+      |D=M
+      |@3
+      |A=A+index
+      |M=D
       |""".stripMargin
 
   val PUSH_STATIC: String =
@@ -229,7 +232,7 @@ object Constants {
       |M=D
       |""".stripMargin
 
-  /*val PUSH_TEMP: String =  TODO
+  val PUSH_TEMP: String =  
     """
       |@{index}
       |A=A+1
@@ -239,13 +242,16 @@ object Constants {
       |A=A+1
       |D=M
       |@SP
-      |
-      |""".stripMargin*/
+      |M=M+1
+      |A=M-1
+      |M=D
+      |""".stripMargin
 
   val POP_TEMP: String =
     """
       |@SP
-      |A=M-1
+      |M=M-1
+      |A=M
       |D=M
       |@{index}
       |A=A+1
@@ -254,8 +260,6 @@ object Constants {
       |A=A+1
       |A=A+1
       |M=D
-      |@SP
-      |M=M-1
       |""".stripMargin
 
   val PUSH_LCL_ARG_THIS_THAT: String =
@@ -272,17 +276,16 @@ object Constants {
       |M=M+1
       |""".stripMargin
 
+  //'A=M+index' - invalid command, need to support with code
   val POP_LCL_ARG_THIS_THAT: String = //TODO
     """
       |@SP
       |M=M-1
+      |A=M
+      |D=M
+      |@{segment}
+      |A=M+index
+      |M=D
       |""".stripMargin
-
-
-
-
-
-
-
 }
 
