@@ -17,7 +17,11 @@ object Parser {
     VMFile = inputFile
   }
 
-  def hasMoreCommands(): Boolean = {
+  def setCurCommand(Command: String): Unit = {
+    CurCommand = Command
+  }
+
+  def hasMoreCommands(): Boolean = { //TODO
     return true
   }
 
@@ -25,6 +29,9 @@ object Parser {
     val a = (CurCommand.split(" ")) (0)
     a match {
       case "push" => Constants.CommandType.C_PUSH
+      case "pop" => Constants.CommandType.C_POP
+      case "add" | "sub" | "neg" | "eq" | "gt" | "lt" | "and" | "or" | "not" => Constants.CommandType.C_ARITHMETIC
+      case _ => Constants.CommandType.C_NOTHING
     }
   }
 

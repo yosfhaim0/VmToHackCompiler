@@ -3,9 +3,10 @@ package Targil1
 object Constants {
 
   object CommandType {
-    val C_ARITHMETIC: String ="C_ARITHMETIC"
-    val C_PUSH: String ="C_PUSH"
-    val C_POP: String ="C_POP"
+    val C_ARITHMETIC: String = "C_ARITHMETIC"
+    val C_PUSH: String = "C_PUSH"
+    val C_POP: String = "C_POP"
+    val C_NOTHING: String = ""//TODO
   }
 
   object MemAccCmd {
@@ -254,7 +255,7 @@ object Constants {
       |M=D
       |""".stripMargin
 
-  val PUSH_TEMP: String =  
+  val PUSH_TEMP: String =
     """
       |@{index}
       |A=A+1
