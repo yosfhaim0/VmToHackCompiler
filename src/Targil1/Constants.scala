@@ -7,6 +7,29 @@ object Constants {
     val C_ARITHMETIC, C_PUSH, C_POP, C_LABEL, C_GOTO, C_IF, C_FUNCTION, C_RETURN, C_CALL = Value
   }
 
+  object MemAccCmd {
+    val LCL: String = "local"
+    val ARG: String = "argument"
+    val THIS: String = "this"
+    val THUS: String = "thus"
+    val PTR: String = "pointer"
+    val TMP: String = "temp"
+    val CONST: String = "constant"
+    val STAT: String = "static"
+  }
+
+  object ArithmeticCmd {
+    val ADD: String = "add"
+    val SUB: String = "sub"
+    val NEG: String = "neg"
+    val EQ: String = "eq"
+    val GT: String = "gt"
+    val LT: String = "lt"
+    val AND: String = "and"
+    val OR: String = "or"
+    val NOT: String = "not"
+  }
+
   /**
    * //  EXAMPLE: vm command: ADD
    *
@@ -27,7 +50,7 @@ object Constants {
    *     //  => RAM[0] = 258-1 = 257.
    *     //  so now the stack pointer, saved in RAM[0], points to RAM[257]
    */
-  val Add: String =
+  val ADD: String =
     """
       |@SP
       |A=M-1
@@ -38,7 +61,7 @@ object Constants {
       |M=M-1
       |""".stripMargin
 
-  val Sub: String =
+  val SUB: String =
     """
       @SP
       |A=M-1
@@ -49,7 +72,7 @@ object Constants {
       |M=M-1
       |""".stripMargin
 
-  val Not: String =
+  val NOT: String =
     """
       |@SP
       |AM=M-1
@@ -59,7 +82,7 @@ object Constants {
       |M=M+1
       |""".stripMargin
 
-  val And: String =
+  val AND: String =
     """
       |@SP
       |AM=M-1
@@ -164,9 +187,9 @@ object Constants {
       |M=M+1
       |""".stripMargin
 
-  val Push_Constant: String =
+  val PUSH_CONSTANT: String =
     """
-      |@{value}
+      |@{index}
       |D=A
       |@SP
       |A=M
@@ -175,7 +198,7 @@ object Constants {
       |M=M+1
       |""".stripMargin
 
-  val Pop_Constant: String =
+  val POP_CONSTANT: String =
     """
       |@SP
       |M=M-1
@@ -216,10 +239,9 @@ object Constants {
       |@{index}
       |D=M
       |@SP
-      |A=M
-      |M=D
-      |@SP
       |M=M+1
+      |A=M-1
+      |M=D
       |""".stripMargin
 
   val POP_STATIC: String =
@@ -276,7 +298,7 @@ object Constants {
       |M=M+1
       |""".stripMargin
 
-  //'A=M+index' - invalid command, need to support with code
+  //'A=A+index' - invalid command, need to support with code
   val POP_LCL_ARG_THIS_THAT: String = //TODO
     """
       |@SP
@@ -284,7 +306,8 @@ object Constants {
       |A=M
       |D=M
       |@{segment}
-      |A=M+index
+      |A=M
+      |A=A+index
       |M=D
       |""".stripMargin
 }

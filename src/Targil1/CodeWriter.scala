@@ -1,19 +1,78 @@
 package Targil1
 
-import java.io.File
+import Targil1.Constants.MemAccCmd._
+import Targil1.Constants._
 
-class CodeWriter(file: File) {
+
+object CodeWriter {
 
   def WriteArithmetic(command: String): Unit = {
+    var asmCommands =
+      command match {
+        case ArithmeticCmd.ADD => ADD
+        case ArithmeticCmd.SUB => SUB
+        case ArithmeticCmd.NEG => NEG
+        case ArithmeticCmd.EQ => EQ
+        case ArithmeticCmd.GT => GT
+        case ArithmeticCmd.LT => LT
+        case ArithmeticCmd.AND => AND
+        case ArithmeticCmd.OR => OR
+        case ArithmeticCmd.NOT => NOT
+      }
 
+    def BuildPushRam(asmCmd: String, index: Int, segment: String) = {
+      asmCmd
+        .replace("segment", segment)
+        .replace("index", index.toString)
+    }
 
+    def BuildAll(asmCmd: String, index: Int) = {
+      asmCmd
+        .replace("index", index.toString)
+    }
 
+    def BuildPopRam(asmCmd: String, index: Int, segment: String) = {
+      var toAdd: String = ""
+      for (_ <- 1 to index) {
+        toAdd += "A=A+1\n"
+      }
+      asmCmd
+        .replace("segment", segment)
+        .replace("A=A+index", toAdd)
+    }
+
+    def BuildPopPtr(asmCmd: String, index: Int) = {
+      var toAdd: String = ""
+      for (_ <- 1 to index) {
+        toAdd += "A=A+1\n"
+      }
+      asmCmd
+        .replace("A=A+index", toAdd)
+    }
+
+    def WritePushPop(command: String, segment: String, index: Int): Unit = {
+
+      var asmCommands =
+        command match {
+          case CommandType.C_PUSH => {
+            segment match {
+              case LCL | ARG | THIS | THUS => BuildPushRam(PUSH_LCL_ARG_THIS_THAT, index, segment)
+              case PTR => BuildAll(PUSH_POINTER, index)
+              case TMP => BuildAll(PUSH_TEMP, index)
+              case CONST => BuildAll(PUSH_CONSTANT, index)
+              case STAT => BuildAll(PUSH_STATIC, index)
+            }
+          }
+          case CommandType.C_POP => {
+            segment match {
+              case LCL | ARG | THIS | THUS => BuildPopRam(PUSH_LCL_ARG_THIS_THAT, index, segment)
+              case PTR => BuildPopPtr(POP_POINTER, index)
+              case TMP => BuildAll(POP_TEMP, index)
+              case CONST => BuildAll(POP_CONSTANT, index)
+              case STAT => BuildAll(POP_STATIC, index)
+            }
+          }
+        }
+    }
   }
-
-  def WritePushPop(command: String, segment: String, index: Int): Unit = {
-
-
-
-  }
-
 }
