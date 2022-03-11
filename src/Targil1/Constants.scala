@@ -2,9 +2,10 @@ package Targil1
 
 object Constants {
 
-  object CommandType extends Enumeration {
-    type CommandType = Value
-    val C_ARITHMETIC, C_PUSH, C_POP, C_LABEL, C_GOTO, C_IF, C_FUNCTION, C_RETURN, C_CALL = Value
+  object CommandType {
+    val C_ARITHMETIC: String ="C_ARITHMETIC"
+    val C_PUSH: String ="C_PUSH"
+    val C_POP: String ="C_POP"
   }
 
   object MemAccCmd {
@@ -222,15 +223,14 @@ object Constants {
       |M=M+1
       |""".stripMargin
 
-  //'A=A+index' - invalid command, need to support with code
+  //'`+index' - invalid command, need to support with code
   val POP_POINTER: String = //YOSEF CAPARA ALECHA
     """
       |@SP
       |M=M-1
       |A=M
       |D=M
-      |@3
-      |A=A+index
+      |@3 `+index
       |M=D
       |""".stripMargin
 
@@ -298,7 +298,7 @@ object Constants {
       |M=M+1
       |""".stripMargin
 
-  //'A=A+index' - invalid command, need to support with code
+  //'`+index' - invalid command, need to support with code
   val POP_LCL_ARG_THIS_THAT: String = //TODO
     """
       |@SP
@@ -306,8 +306,7 @@ object Constants {
       |A=M
       |D=M
       |@{segment}
-      |A=M
-      |A=A+index
+      |A=M `+index
       |M=D
       |""".stripMargin
 }
