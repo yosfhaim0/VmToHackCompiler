@@ -7,27 +7,28 @@ import scala.util.Using
 /**
  *
  */
-object Parser {
-  // ASM file for writing
-  var VMFile: File = _
+class Parser(inputFile: File) {
+
   //current command
   var CurCommand: String = _
 
-  def parser(inputFile: File): Unit = {
-    VMFile = inputFile
-  }
+  val fileLines = io.Source.fromFile(inputFile).getLines()
 
-  def setCurCommand(Command: String): Unit = {
-    CurCommand = Command
-  }
 
   def hasMoreCommands(): Boolean = { //TODO
-    return true
+    return !fileLines.isEmpty
   }
 
-  def getCommandType(): Unit = {
-    val a = (CurCommand.split(" ")) (0)
-    a match {
+  def advance(): Unit = {
+    CurCommand = fileLines.next()
+    while (CurCommand.startsWith("//") || CurCommand.isEmpty) && hasMoreCommands() do
+      CurCommand = fileLines.next()
+  }
+
+
+  def CommandType(): String = {
+    val arg0 = (CurCommand.split(" ")) (0)
+    arg0 match {
       case "push" => Constants.CommandType.C_PUSH
       case "pop" => Constants.CommandType.C_POP
       case "add" | "sub" | "neg" | "eq" | "gt" | "lt" | "and" | "or" | "not" => Constants.CommandType.C_ARITHMETIC
@@ -39,8 +40,8 @@ object Parser {
     CurCommand.split(" ")(1)
   }
 
-  def arg2(): String = {
-    CurCommand.split(" ")(2)
+  def arg2(): Int = {
+    CurCommand.split(" ")(2).toInt
   }
 
 
