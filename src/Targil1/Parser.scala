@@ -43,5 +43,4 @@ object Parser {
     CurCommand.split(" ")(2)
   }
 
-
 }

@@ -6,7 +6,7 @@ object Constants {
     val C_ARITHMETIC: String = "C_ARITHMETIC"
     val C_PUSH: String = "C_PUSH"
     val C_POP: String = "C_POP"
-    val C_NOTHING: String = ""//TODO
+    val C_NOTHING: String = "" //TODO
   }
 
   object MemAccCmd {
@@ -32,46 +32,24 @@ object Constants {
     val NOT: String = "not"
   }
 
-  /**
-   * //  EXAMPLE: vm command: ADD
-   *
-   * @SP //  A = 0
-   *     A=M-1  //  A = RAM[A]-1 = RAM[0]-1 = 258-1 = 257 => A=257
-   *     D=M		//  D = RAM[A] = RAM[257] = 5
-   *     //  D saves the second item in the stack
-   *     A=A-1	//  A = 257-1 = 256
-   *     M=D+M	//  RAM[A] = D+RAM[A] => RAM[256] = 5+RAM[256] = 5+4 = 9
-   *     //  save the add result in the place of the first item on the stack
-   *     //  this is equal to:  pop second item, pop first item,
-   *     //  push the result of their addition to the stack.
-   * @SP //  after pushing the result to the stack,
-   *     //  we want to decrement the stack pointer.
-   *     //  current command is: A=0
-   *     M=M-1	//  RAM[A] = RAM[A]-1
-   *     //  => RAM[0] = RAM[0] - 1
-   *     //  => RAM[0] = 258-1 = 257.
-   *     //  so now the stack pointer, saved in RAM[0], points to RAM[257]
-   */
   val ADD: String =
     """
       |@SP
-      |A=M-1
+      |M=M-1
+      |A=M
       |D=M
       |A=A-1
       |M=D+M
-      |@SP
-      |M=M-1
       |""".stripMargin
 
   val SUB: String =
     """
-      @SP
-      |A=M-1
+      |@SP
+      |M=M-1
+      |A=M
       |D=M
       |A=A-1
       |M=D-M
-      |@SP
-      |M=M-1
       |""".stripMargin
 
   val NOT: String =
@@ -125,18 +103,18 @@ object Constants {
       |@SP
       |AM=M-1
       |D=M-D
-      |@EQ.{index}_TRUE
+      |@IF_TRUE
       |D;JEQ
       |@SP
       |A=M
       |M=0
-      |@EQ.{index}_END
+      |@IF_FALSE
       |0;JMP
-      |(EQ.{index}_TRUE)
+      |(IF_TRUE)
       |@SP
       |A=M
       |M=-1
-      |EQ.{index}_END)
+      |(IF_FALSE)
       |@SP
       |M=M+1
       |""".stripMargin
@@ -149,18 +127,18 @@ object Constants {
       |@SP
       |AM=M-1
       |D=M-D
-      |@GT.{index}_TRUE
+      |@IF_TRUE
       |D;JGT
       |@SP
       |A=M
       |M=0
-      |@GT.{index}_END
+      |@IF_FALSE
       |0;JMP
-      |(GT.{index}_TRUE)
+      |(IF_TRUE)
       |@SP
       |A=M
       |M=-1
-      |(LT.{index}_END)
+      |(IF_FALSE)
       |@SP
       |M=M+1
       |""".stripMargin
@@ -173,18 +151,18 @@ object Constants {
       |@SP
       |AM=M-1
       |D=M-D
-      |@LT.{index}_TRUE
+      |@IF_TRUE
       |D;JLT
       |@SP
       |A=M
       |M=0
-      |@LT.{index}_END
+      |@IF_FALSE
       |0;JMP
-      |(LT.{index}_TRUE)
+      |(IF_TRUE)
       |@SP
       |A=M
       |M=-1
-      |(LT.{index}_END)
+      |(IF_FALSE)
       |@SP
       |M=M+1
       |""".stripMargin
