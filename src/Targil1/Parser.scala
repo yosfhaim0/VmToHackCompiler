@@ -44,5 +44,4 @@ class Parser(inputFile: File) {
     CurCommand.split(" ")(2).toInt
   }
 
-
 }
