@@ -1,26 +1,48 @@
 package Targil1
 
 import java.io.{File, FileWriter}
+import java.util
 
 object Tar1 {
 
-  def main(args: Array[String]): Unit = {
-    print("Input path: ")
-    val path = scala.io.StdIn.readLine()
-    val p = new Parser(new File(path))
-    val file_Object = path.substring(path.lastIndexOf('\\') + 1,path.lastIndexOf('.'))
-    val c = new CodeWriter(new FileWriter(file_Object + ".asm", false))
-    while p.hasMoreCommands() do
-      p.advance()
-      var a = p.CommandType()
-      if p.CommandType() == Constants.CommandType.C_POP || p.CommandType() == Constants.CommandType.C_PUSH then
-        c.WritePushPop(p.CommandType(), p.arg1(), p.arg2())
-      else if p.CommandType() == Constants.CommandType.C_ARITHMETIC then
-        c.WriteArithmetic(p.arg1())
-      end if
-    end while
+  def getListOfVmFiles(root: String): List[File] = {
 
-    c.close()
+    val d = new File(root)
+
+    if (d.listFiles.filter(_.isDirectory).toList.isEmpty) {
+      val ret = d.listFiles.filter(_.isFile).toList.filter(p => p.toString.endsWith(".vm"))
+      return ret
+    }
+
+    var vms: List[File] = d.listFiles.filter(_.isFile).toList.filter(p => p.toString.endsWith(".vm"))
+    val dirs: List[File] = d.listFiles.filter(_.isDirectory).toList
+    for (dir <- dirs) {
+      vms = vms ::: getListOfVmFiles(dir.toString)
+    }
+    vms
+  }
+
+  def getListOfVmStringFiles(path: String) = {
+    getListOfVmFiles(path).map(path => path.toString)
+  }
+
+  def main(args: Array[String]): Unit = {
+
+    val paths = getListOfVmStringFiles(System.getProperty("user.dir") + "\\src")
+    for (path <- paths) {
+      val p = new Parser(new File(path))
+      val file_Object = path.substring(0, path.lastIndexOf('.'))
+      val c = new CodeWriter(new FileWriter(file_Object + ".asm", false))
+      while (p.hasMoreCommands()) {
+        p.advance()
+        var a = p.CommandType()
+        if (p.CommandType() == Constants.CommandType.C_POP || p.CommandType() == Constants.CommandType.C_PUSH)
+          c.WritePushPop(p.CommandType(), p.arg1(), p.arg2())
+        else if (p.CommandType() == Constants.CommandType.C_ARITHMETIC)
+          c.WriteArithmetic(p.arg1())
+      }
+      c.close()
+    }
 
 
     //    val CW = CodeWriter
