@@ -5,7 +5,8 @@ import Targil1.Constants._
 
 import java.io._
 
-case class CodeWriter(asmFile: FileWriter) {
+class CodeWriter(asmFile: FileWriter) {
+  
   def close(): Unit = {
     asmFile.close()
   }

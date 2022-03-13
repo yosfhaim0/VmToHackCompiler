@@ -23,6 +23,7 @@ class Parser(inputFile: File) {
     CurCommand = fileLines.next()
     while (CurCommand.startsWith("//") || CurCommand.isEmpty) && hasMoreCommands() do
       CurCommand = fileLines.next()
+    end while
   }
 
 
@@ -37,7 +38,13 @@ class Parser(inputFile: File) {
   }
 
   def arg1(): String = {
-    CurCommand.split(" ")(1)
+    var arg1 = ""
+    if CommandType() != Constants.CommandType.C_POP && CommandType() != Constants.CommandType.C_PUSH then
+      arg1=CurCommand.split(" ")(0)
+    else
+      arg1=CurCommand.split(" ")(1)
+    end if
+    return arg1
   }
 
   def arg2(): Int = {
