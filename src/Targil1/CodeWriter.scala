@@ -6,7 +6,7 @@ import Targil1.Constants._
 import java.io._
 
 class CodeWriter(asmFile: FileWriter) {
-  
+
   def close(): Unit = {
     asmFile.close()
   }
@@ -55,13 +55,13 @@ class CodeWriter(asmFile: FileWriter) {
 
   private def BuildPushRam(asmCmd: String, index: Int, segment: String): String = {
     asmCmd
-      .replace("segment", segment)
-      .replace("index", index.toString)
+      .replace("{segment}", segment)
+      .replace("{index}", index.toString)
   }
 
   private def BuildAll(asmCmd: String, index: Int): String = {
     asmCmd
-      .replace("index", index.toString)
+      .replace("{index}", index.toString)
   }
 
   private def BuildPopRam(asmCmd: String, index: Int, segment: String): String = {
@@ -70,7 +70,7 @@ class CodeWriter(asmFile: FileWriter) {
       toAdd += "\nA=A+1"
     }
     asmCmd
-      .replace("segment", segment)
+      .replace("{segment}", segment)
       .replace("`+index", toAdd)
   }
 
