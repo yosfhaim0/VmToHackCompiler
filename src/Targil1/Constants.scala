@@ -13,7 +13,7 @@ object Constants {
     val LCL: String = "local"
     val ARG: String = "argument"
     val THIS: String = "this"
-    val THUS: String = "thus"
+    val THAT: String = "that"
     val PTR: String = "pointer"
     val TMP: String = "temp"
     val CONST: String = "constant"

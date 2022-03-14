@@ -35,7 +35,7 @@ class CodeWriter(asmFile: FileWriter) {
       command match {
         case CommandType.C_PUSH =>
           segment match {
-            case LCL | ARG | THIS | THUS => BuildPushRam(PUSH_LCL_ARG_THIS_THAT, index, segment)
+            case LCL | ARG | THIS | THAT => BuildPushRam(PUSH_LCL_ARG_THIS_THAT, index, segment)
             case PTR => BuildAll(PUSH_POINTER, index)
             case TMP => BuildAll(PUSH_TEMP, index)
             case CONST => BuildAll(PUSH_CONSTANT, index)
@@ -43,7 +43,7 @@ class CodeWriter(asmFile: FileWriter) {
           }
         case CommandType.C_POP =>
           segment match {
-            case LCL | ARG | THIS | THUS => BuildPopRam(POP_LCL_ARG_THIS_THAT, index, segment)
+            case LCL | ARG | THIS | THAT => BuildPopRam(POP_LCL_ARG_THIS_THAT, index, segment)
             case PTR => BuildPopPtr(POP_POINTER, index)
             case TMP => BuildAll(POP_TEMP, index)
             case CONST => BuildAll(POP_CONSTANT, index)
