@@ -6,6 +6,7 @@ import Targil1.Constants._
 import java.io._
 
 class CodeWriter(asmFile: FileWriter) {
+  var counter: Int = 0
 
   def close(): Unit = {
     asmFile.close()
@@ -13,15 +14,25 @@ class CodeWriter(asmFile: FileWriter) {
 
   def setFileName(toString: String) = {}
 
+  def increment():Unit = {
+    counter = counter + 1
+  }
+
   def WriteArithmetic(command: String): Unit = {
     val toWrite: String =
       command match {
         case ArithmeticCmd.ADD => ADD
         case ArithmeticCmd.SUB => SUB
         case ArithmeticCmd.NEG => NEG
-        case ArithmeticCmd.EQ => EQ
-        case ArithmeticCmd.GT => GT
-        case ArithmeticCmd.LT => LT
+        case ArithmeticCmd.EQ => {
+          increment()
+          EQ.replace("{val}", counter.toString)}
+        case ArithmeticCmd.GT => {
+          increment()
+          GT.replace("{val}", counter.toString)}
+        case ArithmeticCmd.LT => {
+          increment()
+          LT.replace("{val}", counter.toString)}
         case ArithmeticCmd.AND => AND
         case ArithmeticCmd.OR => OR
         case ArithmeticCmd.NOT => NOT

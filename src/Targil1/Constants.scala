@@ -103,12 +103,12 @@ object Constants {
       |@SP
       |AM=M-1
       |D=M-D
-      |@IF_TRUE
+      |@IF_TRUE{val}
       |D;JEQ
       |@SP
       |A=M
       |M=0
-      |@IF_FALSE
+      |@IF_FALSE{val}
       |0;JMP
       |(IF_TRUE)
       |@SP
@@ -127,12 +127,12 @@ object Constants {
       |@SP
       |AM=M-1
       |D=M-D
-      |@IF_TRUE
+      |@IF_TRUE{val}
       |D;JGT
       |@SP
       |A=M
       |M=0
-      |@IF_FALSE
+      |@IF_FALSE{val}
       |0;JMP
       |(IF_TRUE)
       |@SP
@@ -151,12 +151,12 @@ object Constants {
       |@SP
       |AM=M-1
       |D=M-D
-      |@IF_TRUE
+      |@IF_TRUE{val}
       |D;JLT
       |@SP
       |A=M
       |M=0
-      |@IF_FALSE
+      |@IF_FALSE{val}
       |0;JMP
       |(IF_TRUE)
       |@SP
