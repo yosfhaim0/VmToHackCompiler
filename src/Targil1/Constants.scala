@@ -10,10 +10,10 @@ object Constants {
   }
 
   object MemAccCmd {
-    val LCL: String = "local"
-    val ARG: String = "argument"
-    val THIS: String = "this"
-    val THAT: String = "that"
+    val LCL: String = "LCL"
+    val ARG: String = "ARG"
+    val THIS: String = "THIS"
+    val THAT: String = "THAT"
     val PTR: String = "pointer"
     val TMP: String = "temp"
     val CONST: String = "constant"
@@ -49,13 +49,14 @@ object Constants {
       |A=M
       |D=M
       |A=A-1
-      |M=D-M
+      |M=M-D
       |""".stripMargin
 
   val NOT: String =
     """
       |@SP
-      |AM=M-1
+      |M=M-1
+      |A=M
       |D=!M
       |M=D
       |@SP
@@ -65,10 +66,12 @@ object Constants {
   val AND: String =
     """
       |@SP
-      |AM=M-1
+      |M=M-1
+      |A=M
       |D=M
       |@SP
-      |AM=M-1
+      |M=M-1
+      |A=M
       |D=D&M
       |M=D
       |@SP
@@ -78,7 +81,12 @@ object Constants {
   val OR: String =
     """
       |@SP
-      |AM=M-1
+      |M=M-1
+      |A=M
+      |D=M
+      |@SP
+      |M=M-1
+      |A=M
       |D=D|M
       |M=D
       |@SP
@@ -88,7 +96,8 @@ object Constants {
   val NEG: String =
     """
       |@SP
-      |AM=M-1
+      |M=M-1
+      |A=M
       |D=-M
       |M=D
       |@SP
@@ -98,23 +107,25 @@ object Constants {
   val EQ: String =
     """
       |@SP
-      |AM=M-1
+      |M=M-1
+      |A=M
       |D=M
       |@SP
-      |AM=M-1
+      |M=M-1
+      |A=M
       |D=M-D
-      |@IF_TRUE{val}
+      |@IF_TRUEval
       |D;JEQ
       |@SP
       |A=M
       |M=0
-      |@IF_FALSE{val}
+      |@IF_FALSEval
       |0;JMP
-      |(IF_TRUE)
+      |(IF_TRUEval)
       |@SP
       |A=M
       |M=-1
-      |(IF_FALSE)
+      |(IF_FALSEval)
       |@SP
       |M=M+1
       |""".stripMargin
@@ -122,23 +133,24 @@ object Constants {
   val GT: String =
     """
       |@SP
-      |AM=M-1
+      |M=M-1
+      |A=M
       |D=M
       |@SP
       |AM=M-1
       |D=M-D
-      |@IF_TRUE{val}
+      |@IF_TRUEval
       |D;JGT
       |@SP
       |A=M
       |M=0
-      |@IF_FALSE{val}
+      |@IF_FALSEval
       |0;JMP
-      |(IF_TRUE)
+      |(IF_TRUEval)
       |@SP
       |A=M
       |M=-1
-      |(IF_FALSE)
+      |(IF_FALSEval)
       |@SP
       |M=M+1
       |""".stripMargin
@@ -146,23 +158,25 @@ object Constants {
   val LT: String =
     """
       |@SP
-      |AM=M-1
+      |M=M-1
+      |A=M
       |D=M
       |@SP
-      |AM=M-1
+      |M=M-1
+      |A=M
       |D=M-D
-      |@IF_TRUE{val}
+      |@IF_TRUEval
       |D;JLT
       |@SP
       |A=M
       |M=0
-      |@IF_FALSE{val}
+      |@IF_FALSEval
       |0;JMP
-      |(IF_TRUE)
+      |(IF_TRUEval)
       |@SP
       |A=M
       |M=-1
-      |(IF_FALSE)
+      |(IF_FALSEval)
       |@SP
       |M=M+1
       |""".stripMargin

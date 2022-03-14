@@ -28,7 +28,7 @@ object Tar1 {
 
   def main(args: Array[String]): Unit = {
 
-    val paths = getListOfVmStringFiles(System.getProperty("user.dir") + "\\src")
+    val paths = getListOfVmStringFiles(System.getProperty("user.dir"))
     for (path <- paths) {
       val p = new Parser(new File(path))
       val file_Object = path.substring(0, path.lastIndexOf('.'))
@@ -43,24 +43,6 @@ object Tar1 {
       }
       c.close()
     }
-
-
-    //    val CW = CodeWriter
-    //    print(CW.WritePushPop("C_POP", "local", 3))
-    //    print(CW.WritePushPop("C_POP", "pointer", 1))
-    //    print(CW.WritePushPop("C_POP", "pointer", 0))
-    //    print(CW.WritePushPop("C_POP", "temp", 3))
-    //    print(CW.WritePushPop("C_POP", "this", 5))
-    //    print(CW.WritePushPop("C_POP", "static", 4))
-    //    print(CW.WritePushPop("C_POP", "argument", 21))
-    //
-    //    print(CW.WritePushPop("C_PUSH", "local", 3))
-    //    print(CW.WritePushPop("C_PUSH", "pointer", 1))
-    //    print(CW.WritePushPop("C_PUSH", "pointer", 0))
-    //    print(CW.WritePushPop("C_PUSH", "temp", 3))
-    //    print(CW.WritePushPop("C_PUSH", "this", 5))
-    //    print(CW.WritePushPop("C_PUSH", "static", 4))
-    //    print(CW.WritePushPop("C_PUSH", "argument", 21))
 
   }
 }

@@ -14,7 +14,7 @@ class CodeWriter(asmFile: FileWriter) {
 
   def setFileName(toString: String) = {}
 
-  def increment():Unit = {
+  def increment(): Unit = {
     counter = counter + 1
   }
 
@@ -26,13 +26,16 @@ class CodeWriter(asmFile: FileWriter) {
         case ArithmeticCmd.NEG => NEG
         case ArithmeticCmd.EQ => {
           increment()
-          EQ.replace("{val}", counter.toString)}
+          EQ.replaceAll("val", counter.toString)
+        }
         case ArithmeticCmd.GT => {
           increment()
-          GT.replace("{val}", counter.toString)}
+          GT.replaceAll("val", counter.toString)
+        }
         case ArithmeticCmd.LT => {
           increment()
-          LT.replace("{val}", counter.toString)}
+          LT.replaceAll("val", counter.toString)
+        }
         case ArithmeticCmd.AND => AND
         case ArithmeticCmd.OR => OR
         case ArithmeticCmd.NOT => NOT
@@ -40,21 +43,31 @@ class CodeWriter(asmFile: FileWriter) {
     asmFile.write(toWrite)
   }
 
-  def WritePushPop(command: String, segment: String, index: Int): Unit = {
+  def tran(segment: String): String = {
+    segment match {
+      case "local" => "LCL"
+      case "argument" => "ARG"
+      case "this" => "THIS"
+      case "that" => "THAT"
+      case _ => segment
+    }
+  }
 
+  def WritePushPop(command: String, segment: String, index: Int): Unit = {
+    val seg = tran(segment)
     val toWrite: String =
       command match {
         case CommandType.C_PUSH =>
-          segment match {
-            case LCL | ARG | THIS | THAT => BuildPushRam(PUSH_LCL_ARG_THIS_THAT, index, segment)
+          seg match {
+            case LCL | ARG | THIS | THAT => BuildPushRam(PUSH_LCL_ARG_THIS_THAT, index, seg)
             case PTR => BuildAll(PUSH_POINTER, index)
             case TMP => BuildAll(PUSH_TEMP, index)
             case CONST => BuildAll(PUSH_CONSTANT, index)
             case STAT => BuildAll(PUSH_STATIC, index)
           }
         case CommandType.C_POP =>
-          segment match {
-            case LCL | ARG | THIS | THAT => BuildPopRam(POP_LCL_ARG_THIS_THAT, index, segment)
+          seg match {
+            case LCL | ARG | THIS | THAT => BuildPopRam(POP_LCL_ARG_THIS_THAT, index, seg)
             case PTR => BuildPopPtr(POP_POINTER, index)
             case TMP => BuildAll(POP_TEMP, index)
             case CONST => BuildAll(POP_CONSTANT, index)
