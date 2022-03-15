@@ -27,8 +27,8 @@ object Tar1 {
   }
 
   def main(args: Array[String]): Unit = {
-
-    val paths = getListOfVmStringFiles(System.getProperty("user.dir"))
+    //System.getProperty("user.dir")
+    val paths = getListOfVmStringFiles(args(0).toString())
     for (path <- paths) {
       val p = new Parser(new File(path))
       val file_Object = path.substring(0, path.lastIndexOf('.'))
