@@ -9,9 +9,9 @@ object Constants {
     val C_LABEL: String = "C_LABEL"
     val C_GOTO: String = "C_GOTO"
     val C_IFGOTO: String = "C_IF-GOTO"
-    val C_CALL:String="C_CALL"
-    val C_RETURN:String="C_RETURN"
-    val C_FUNCTION:String="C_FUNCTION"
+    val C_CALL: String = "C_CALL"
+    val C_RETURN: String = "C_RETURN"
+    val C_FUNCTION: String = "C_FUNCTION"
     val C_NOTHING: String = "" //TODO
   }
 
@@ -50,26 +50,6 @@ object Constants {
     val FUNCTION: String = "function"
   }
 
-
-  val GOTO: String =
-    """
-      |@FileName.c
-      |0;JMP
-      |""".stripMargin
-
-  val LABEL: String =
-    """
-      |(FileName.c)
-      |""".stripMargin
-  val IFGOTO: String =
-    """
-      |@SP
-      |M=M-1
-      |A=M
-      |D=M
-      |@FileName.c
-      |D;JNE
-      |""".stripMargin
 
   val ADD: String =
     """
@@ -341,6 +321,27 @@ object Constants {
       |A=M `+index
       |M=D
       |""".stripMargin
+
+  val GOTO: String =
+    """
+      |@FileName.c
+      |0;JMP
+      |""".stripMargin
+
+  val LABEL: String =
+    """
+      |(FileName.c)
+      |""".stripMargin
+  val IFGOTO: String =
+    """
+      |@SP
+      |M=M-1
+      |A=M
+      |D=M
+      |@FileName.c
+      |D;JNE
+      |""".stripMargin
+
   val CALL: String =
     """
       |// push return-address
@@ -478,65 +479,64 @@ object Constants {
       |M=0
       |@SP
       |M=M+1
-      |@ f.Loop
+      |@NameOfFunc.Loop
       |D=D-1;JNE
       |(NameOfFunc.End) //
       |
       |""".stripMargin
   val BOOTSTRAPPING: String =
-    """
-      |@256
-      |D=A
-      |@SP
-      |M=D
-      |@Sys.init.returnAdd
-      |D=A
-      |@SP
-      |A=M
-      |M=D
-      |@SP
-      |M=M+1
-      |@LCL
-      |D=M
-      |@SP
-      |A=M
-      |M=D
-      |@SP
-      |M=M+1
-      |@ARG
-      |D=M
-      |@SP
-      |A=M
-      |M=D
-      |@SP
-      |M=M+1
-      |@THIS
-      |D=M
-      |@SP
-      |A=M
-      |M=D
-      |@SP
-      |M=M+1
-      |@THAT
-      |D=M
-      |@SP
-      |A=M
-      |M=D
-      |@SP
-      |M=M+1
-      |@SP
-      |D=M
-      |@5
-      |D=D-A
-      |@ARG
-      |M=D
-      |@SP
-      |D=M
-      |@LCL
-      |M=D
-      |@Sys.init.returnAdd
-      |0;JMP
-      |(Sys.init.returnAdd)
-      |""".stripMargin
+    """|@256
+       |D=A
+       |@SP
+       |M=D
+       |@Sys.init.returnAdd
+       |D=A
+       |@SP
+       |A=M
+       |M=D
+       |@SP
+       |M=M+1
+       |@LCL
+       |D=M
+       |@SP
+       |A=M
+       |M=D
+       |@SP
+       |M=M+1
+       |@ARG
+       |D=M
+       |@SP
+       |A=M
+       |M=D
+       |@SP
+       |M=M+1
+       |@THIS
+       |D=M
+       |@SP
+       |A=M
+       |M=D
+       |@SP
+       |M=M+1
+       |@THAT
+       |D=M
+       |@SP
+       |A=M
+       |M=D
+       |@SP
+       |M=M+1
+       |@SP
+       |D=M
+       |@5
+       |D=D-A
+       |@ARG
+       |M=D
+       |@SP
+       |D=M
+       |@LCL
+       |M=D
+       |@Sys.init.returnAdd
+       |0;JMP
+       |(Sys.init.returnAdd)
+       |""".stripMargin
 }
 

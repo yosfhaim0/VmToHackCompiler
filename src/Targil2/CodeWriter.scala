@@ -14,7 +14,9 @@ class CodeWriter(asmFile: FileWriter, File_Name: String) {
     asmFile.close()
   }
 
-  def setFileName(toString: String) = {}
+  def setFileName(fileName: String) = {
+    currentFileName=fileName
+  }
 
   def increment(): Unit = {
     counter = counter + 1
@@ -124,15 +126,15 @@ class CodeWriter(asmFile: FileWriter, File_Name: String) {
   }
 
   def WriteIfGoto(label: String): Unit = {
-    asmFile.write(Constants.IFGOTO.replace("FileName.c",
-      s"$currentFileName.$label"))
+    asmFile.write(Constants.IFGOTO
+      .replace("FileName.c", s"$currentFileName.$label"))
   }
 
   def WriteCall(functionName: String, numOfArgument: Int): Unit = {
     asmFile.write(Constants.CALL
       .replace("NameOfFunc", s"$functionName")
       .replace("numARG", s"$numOfArgument")
-      .replace("index", s"($callCounter)"))
+      .replace("index", s"$callCounter"))
     callCounterIncrement()
   }
 
@@ -144,6 +146,10 @@ class CodeWriter(asmFile: FileWriter, File_Name: String) {
     asmFile.write(Constants.FUNCTION
       .replace("NameOfFunc", s"$NameOfFunc")
       .replace("NumOfLocal", s"$numOfLocal"))
+  }
+
+  def WriteBootStraping(): Unit = {
+    asmFile.write(Constants.BOOTSTRAPPING)
   }
 
 
