@@ -9,6 +9,9 @@ object Constants {
     val C_LABEL: String = "C_LABEL"
     val C_GOTO: String = "C_GOTO"
     val C_IFGOTO: String = "C_IF-GOTO"
+    val C_CALL:String="C_CALL"
+    val C_RETURN:String="C_RETURN"
+    val C_FUNCTION:String="C_FUNCTION"
     val C_NOTHING: String = "" //TODO
   }
 
@@ -40,6 +43,13 @@ object Constants {
     val GOTO: String = "goto"
     val IFGOTO: String = "if-goto"
   }
+
+  object FunctionCmd {
+    val CALL: String = "call"
+    val RETURN: String = "return"
+    val FUNCTION: String = "function"
+  }
+
 
   val GOTO: String =
     """
@@ -321,7 +331,7 @@ object Constants {
       |""".stripMargin
 
   //'`+index' - invalid command, need to support with code
-  val POP_LCL_ARG_THIS_THAT: String = //TODO
+  val POP_LCL_ARG_THIS_THAT: String =
     """
       |@SP
       |M=M-1
@@ -330,6 +340,203 @@ object Constants {
       |@{segment}
       |A=M `+index
       |M=D
+      |""".stripMargin
+  val CALL: String =
+    """
+      |// push return-address
+      |@NameOfFunc.ReturnAddress(index)
+      |D=A
+      |@SP
+      |A=M
+      |M=D
+      |@SP
+      |M=M+1
+      |// push LCL
+      |@LCL
+      |D=M
+      |@SP
+      |A=M
+      |M=D
+      |@SP
+      |M=M+1
+      |// push ARG
+      |@ARG
+      |D=M
+      |@SP
+      |A=M
+      |M=D
+      |@SP
+      |M=M+1
+      |// push THIS
+      |@THIS
+      |D=M
+      |@SP
+      |A=M
+      |M=D
+      |@SP
+      |M=M+1
+      |// push THAT
+      |@THAT
+      |D=M
+      |@SP
+      |A=M
+      |M=D
+      |@SP
+      |M=M+1
+      |// ARG = SP-n-5
+      |@SP
+      |D=M
+      |@numARG  // = n-5 NUM
+      |D=D-A
+      |@ARG
+      |M=D
+      |// LCL = SP
+      |@SP
+      |D=M
+      |@LCL
+      |M=D
+      |// goto g
+      |@NameOfFunc
+      |0; JMP
+      |// label return-address
+      |(NameOfFunc.ReturnAddress(index))
+      |""".stripMargin
+  val RETURN: String =
+    """
+      |// FRAME = LCL
+      |@LCL
+      |D=M
+      |
+      |// RET = * (FRAME-5)
+      |// RAM[13] = (LOCAL - 5)
+      |@5
+      |A=D-A
+      |D=M
+      |@13
+      |M=D
+      |
+      |// * ARG = pop()
+      |@SP
+      |M=M-1
+      |A=M
+      |D=M
+      |@ARG
+      |A=M
+      |M=D
+      |		// SP = ARG+1
+      |@ARG
+      |D=M
+      |@SP
+      |M=D+1
+      |
+      |// THAT = *(FRAM-1)
+      |@LCL
+      |M=M-1
+      |A=M
+      |D=M
+      |@THAT
+      |M=D
+      |
+      |// THIS = *(FRAM-2)
+      |@LCL
+      |M=M-1
+      |A=M
+      |D=M
+      |@THIS
+      |M=D
+      |// ARG = *(FRAM-3)
+      |@LCL
+      |M=M-1
+      |A=M
+      |D=M
+      |@ARG
+      |M=D
+      |// LCL = *(FRAM-4)
+      |@LCL
+      |M=M-1
+      |A=M
+      |D=M
+      |@LCL
+      |M=D
+      |
+      |// goto RET
+      |@13
+      |A=M
+      |0;JMP
+      |""".stripMargin
+  val FUNCTION: String =
+    """
+      |// label g
+      |(NameOfFunc)
+      |@NumOfLocal
+      |D=A
+      |@NameOfFunc.End
+      |D; JEQ
+      |(NameOfFunc.Loop)
+      |@SP
+      |A=M
+      |M=0
+      |@SP
+      |M=M+1
+      |@ f.Loop
+      |D=D-1;JNE
+      |(NameOfFunc.End) //
+      |
+      |""".stripMargin
+  val BOOTSTRAPPING: String =
+    """
+      |@256
+      |D=A
+      |@SP
+      |M=D
+      |@Sys.init.returnAdd
+      |D=A
+      |@SP
+      |A=M
+      |M=D
+      |@SP
+      |M=M+1
+      |@LCL
+      |D=M
+      |@SP
+      |A=M
+      |M=D
+      |@SP
+      |M=M+1
+      |@ARG
+      |D=M
+      |@SP
+      |A=M
+      |M=D
+      |@SP
+      |M=M+1
+      |@THIS
+      |D=M
+      |@SP
+      |A=M
+      |M=D
+      |@SP
+      |M=M+1
+      |@THAT
+      |D=M
+      |@SP
+      |A=M
+      |M=D
+      |@SP
+      |M=M+1
+      |@SP
+      |D=M
+      |@5
+      |D=D-A
+      |@ARG
+      |M=D
+      |@SP
+      |D=M
+      |@LCL
+      |M=D
+      |@Sys.init.returnAdd
+      |0;JMP
+      |(Sys.init.returnAdd)
       |""".stripMargin
 }
 

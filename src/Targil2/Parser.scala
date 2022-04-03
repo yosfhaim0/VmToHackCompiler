@@ -42,13 +42,16 @@ class Parser(inputFile: File) {
       case "label" => Constants.CommandType.C_LABEL
       case "goto" => Constants.CommandType.C_GOTO
       case "if-goto" => Constants.CommandType.C_IFGOTO
+      case "call"=>Constants.CommandType.C_CALL
+      case "return"=>Constants.CommandType.C_RETURN
+      case "function"=>Constants.CommandType.C_FUNCTION
       case _ => Constants.CommandType.C_NOTHING
     }
   }
 
   def arg1(): String = {
     var arg1 = ""
-    if (CommandType() != Constants.CommandType.C_ARITHMETIC)
+    if (CommandType() != Constants.CommandType.C_ARITHMETIC && CommandType() != Constants.CommandType.C_RETURN)
       arg1 = CurCommand.split(" ")(1)
     else
       arg1 = CurCommand.split(" ")(0)

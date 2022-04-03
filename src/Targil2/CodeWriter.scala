@@ -7,6 +7,7 @@ import java.io._
 
 class CodeWriter(asmFile: FileWriter, File_Name: String) {
   var counter: Int = 0
+  var callCounter: Int = 0
   var currentFileName: String = File_Name
 
   def close(): Unit = {
@@ -17,6 +18,10 @@ class CodeWriter(asmFile: FileWriter, File_Name: String) {
 
   def increment(): Unit = {
     counter = counter + 1
+  }
+
+  def callCounterIncrement(): Unit = {
+    callCounter = callCounter + 1
   }
 
   def WriteArithmetic(command: String): Unit = {
@@ -108,19 +113,38 @@ class CodeWriter(asmFile: FileWriter, File_Name: String) {
       .replace("`+index", toAdd)
   }
 
-   def WriteLabel(label: String): Unit = {
+  def WriteLabel(label: String): Unit = {
     asmFile.write(Constants.LABEL.replace("FileName.c",
       s"$currentFileName.$label"))
   }
-   def WriteGoto(label: String): Unit = {
+
+  def WriteGoto(label: String): Unit = {
     asmFile.write(Constants.GOTO.replace("FileName.c",
       s"$currentFileName.$label"))
   }
-   def WriteIfGoto(label: String): Unit = {
+
+  def WriteIfGoto(label: String): Unit = {
     asmFile.write(Constants.IFGOTO.replace("FileName.c",
       s"$currentFileName.$label"))
   }
 
+  def WriteCall(functionName: String, numOfArgument: Int): Unit = {
+    asmFile.write(Constants.CALL
+      .replace("NameOfFunc", s"$functionName")
+      .replace("numARG", s"$numOfArgument")
+      .replace("index", s"($callCounter)"))
+    callCounterIncrement()
+  }
+
+  def WriteReturn(): Unit = {
+    asmFile.write(Constants.RETURN)
+  }
+
+  def WriteFunction(NameOfFunc: String, numOfLocal: Int): Unit = {
+    asmFile.write(Constants.FUNCTION
+      .replace("NameOfFunc", s"$NameOfFunc")
+      .replace("NumOfLocal", s"$numOfLocal"))
+  }
 
 
 }

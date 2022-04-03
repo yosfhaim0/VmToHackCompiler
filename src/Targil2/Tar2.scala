@@ -30,6 +30,7 @@ object Tar2 {
     //System.getProperty("user.dir")
     val paths = getListOfVmStringFiles(args(0).toString())
     for (path <- paths) {
+
       val p = new Parser(new File(path))
       val file_Name = path.substring(0, path.lastIndexOf('.'))
       val c = new CodeWriter(new FileWriter(file_Name + ".asm", false), file_Name.substring(file_Name.lastIndexOf('\\') + 1))
@@ -49,9 +50,18 @@ object Tar2 {
         else if (p.CommandType() == Constants.CommandType.C_IFGOTO) {
           c.WriteIfGoto(p.arg1())
         }
+        else if (p.CommandType()==Constants.CommandType.C_CALL){
+          c.WriteCall(p.arg1(),p.arg2())
+        }
+        else if (p.CommandType()==Constants.CommandType.C_RETURN){
+          c.WriteReturn()
+        }
+        else if (p.CommandType()==Constants.CommandType.C_FUNCTION){
+          c.WriteFunction(p.arg1(),p.arg2())
+        }
 
 
-      }
+     }
       c.close()
     }
 
