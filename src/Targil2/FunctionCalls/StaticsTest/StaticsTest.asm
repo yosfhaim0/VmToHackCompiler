@@ -39,6 +39,8 @@ M=D
 M=M+1
 @SP
 D=M
+@0
+D=D-A
 @5
 D=D-A
 @ARG
@@ -47,7 +49,7 @@ M=D
 D=M
 @LCL
 M=D
-@Sys.init.returnAdd
+@Sys.init
 0;JMP
 (Sys.init.returnAdd)
 
@@ -56,7 +58,7 @@ M=D
 @0
 D=A
 @Class1.set_End
-D; JEQ
+D;JEQ
 (Class1.set_Loop)
 @SP
 A=M
@@ -65,9 +67,10 @@ M=0
 M=M+1
 @Class1.set_Loop
 D=D-1;JNE
-(Class1.set_End) //
+(Class1.set_End)
 
 
+//C_PUSH
 @0
 D=A
 @ARG
@@ -79,13 +82,16 @@ M=D
 @SP
 M=M+1
 
+//C_POP
+@SP
+A=M-1
+D=M
+@Class1.0
+M=D
 @SP
 M=M-1
-A=M
-D=M
-@0
-M=D
 
+//C_PUSH
 @1
 D=A
 @ARG
@@ -97,13 +103,16 @@ M=D
 @SP
 M=M+1
 
+//C_POP
+@SP
+A=M-1
+D=M
+@Class1.1
+M=D
 @SP
 M=M-1
-A=M
-D=M
-@1
-M=D
 
+//C_PUSH
 @0
 D=A
 @SP
@@ -112,17 +121,13 @@ M=D
 @SP
 M=M+1
 
-// FRAME = LCL
 @LCL
 D=M
-// RET = * (FRAME-5)
-// RAM[13] = (LOCAL - 5)
 @5
 A=D-A
 D=M
 @13
 M=D
-// * ARG = pop()
 @SP
 M=M-1
 A=M
@@ -130,43 +135,34 @@ D=M
 @ARG
 A=M
 M=D
-		// SP = ARG+1
 @ARG
 D=M
 @SP
 M=D+1
-
-// THAT = *(FRAM-1)
 @LCL
 M=M-1
 A=M
 D=M
 @THAT
 M=D
-
-// THIS = *(FRAM-2)
 @LCL
 M=M-1
 A=M
 D=M
 @THIS
 M=D
-// ARG = *(FRAM-3)
 @LCL
 M=M-1
 A=M
 D=M
 @ARG
 M=D
-// LCL = *(FRAM-4)
 @LCL
 M=M-1
 A=M
 D=M
 @LCL
 M=D
-
-// goto RET
 @13
 A=M
 0;JMP
@@ -176,7 +172,7 @@ A=M
 @0
 D=A
 @Class1.get_End
-D; JEQ
+D;JEQ
 (Class1.get_Loop)
 @SP
 A=M
@@ -185,22 +181,26 @@ M=0
 M=M+1
 @Class1.get_Loop
 D=D-1;JNE
-(Class1.get_End) //
+(Class1.get_End)
 
 
-@0
+//C_PUSH
+@Class1.0
 D=M
 @SP
-M=M+1
-A=M-1
+A=M
 M=D
-
-@1
-D=M
 @SP
 M=M+1
-A=M-1
+
+//C_PUSH
+@Class1.1
+D=M
+@SP
+A=M
 M=D
+@SP
+M=M+1
 
 @SP
 M=M-1
@@ -209,17 +209,13 @@ D=M
 A=A-1
 M=M-D
 
-// FRAME = LCL
 @LCL
 D=M
-// RET = * (FRAME-5)
-// RAM[13] = (LOCAL - 5)
 @5
 A=D-A
 D=M
 @13
 M=D
-// * ARG = pop()
 @SP
 M=M-1
 A=M
@@ -227,43 +223,34 @@ D=M
 @ARG
 A=M
 M=D
-		// SP = ARG+1
 @ARG
 D=M
 @SP
 M=D+1
-
-// THAT = *(FRAM-1)
 @LCL
 M=M-1
 A=M
 D=M
 @THAT
 M=D
-
-// THIS = *(FRAM-2)
 @LCL
 M=M-1
 A=M
 D=M
 @THIS
 M=D
-// ARG = *(FRAM-3)
 @LCL
 M=M-1
 A=M
 D=M
 @ARG
 M=D
-// LCL = *(FRAM-4)
 @LCL
 M=M-1
 A=M
 D=M
 @LCL
 M=D
-
-// goto RET
 @13
 A=M
 0;JMP
@@ -273,7 +260,7 @@ A=M
 @0
 D=A
 @Class2.set_End
-D; JEQ
+D;JEQ
 (Class2.set_Loop)
 @SP
 A=M
@@ -282,9 +269,10 @@ M=0
 M=M+1
 @Class2.set_Loop
 D=D-1;JNE
-(Class2.set_End) //
+(Class2.set_End)
 
 
+//C_PUSH
 @0
 D=A
 @ARG
@@ -296,13 +284,16 @@ M=D
 @SP
 M=M+1
 
+//C_POP
+@SP
+A=M-1
+D=M
+@Class2.0
+M=D
 @SP
 M=M-1
-A=M
-D=M
-@0
-M=D
 
+//C_PUSH
 @1
 D=A
 @ARG
@@ -314,13 +305,16 @@ M=D
 @SP
 M=M+1
 
+//C_POP
+@SP
+A=M-1
+D=M
+@Class2.1
+M=D
 @SP
 M=M-1
-A=M
-D=M
-@1
-M=D
 
+//C_PUSH
 @0
 D=A
 @SP
@@ -329,17 +323,13 @@ M=D
 @SP
 M=M+1
 
-// FRAME = LCL
 @LCL
 D=M
-// RET = * (FRAME-5)
-// RAM[13] = (LOCAL - 5)
 @5
 A=D-A
 D=M
 @13
 M=D
-// * ARG = pop()
 @SP
 M=M-1
 A=M
@@ -347,43 +337,34 @@ D=M
 @ARG
 A=M
 M=D
-		// SP = ARG+1
 @ARG
 D=M
 @SP
 M=D+1
-
-// THAT = *(FRAM-1)
 @LCL
 M=M-1
 A=M
 D=M
 @THAT
 M=D
-
-// THIS = *(FRAM-2)
 @LCL
 M=M-1
 A=M
 D=M
 @THIS
 M=D
-// ARG = *(FRAM-3)
 @LCL
 M=M-1
 A=M
 D=M
 @ARG
 M=D
-// LCL = *(FRAM-4)
 @LCL
 M=M-1
 A=M
 D=M
 @LCL
 M=D
-
-// goto RET
 @13
 A=M
 0;JMP
@@ -393,7 +374,7 @@ A=M
 @0
 D=A
 @Class2.get_End
-D; JEQ
+D;JEQ
 (Class2.get_Loop)
 @SP
 A=M
@@ -402,22 +383,26 @@ M=0
 M=M+1
 @Class2.get_Loop
 D=D-1;JNE
-(Class2.get_End) //
+(Class2.get_End)
 
 
-@0
+//C_PUSH
+@Class2.0
 D=M
 @SP
-M=M+1
-A=M-1
+A=M
 M=D
-
-@1
-D=M
 @SP
 M=M+1
-A=M-1
+
+//C_PUSH
+@Class2.1
+D=M
+@SP
+A=M
 M=D
+@SP
+M=M+1
 
 @SP
 M=M-1
@@ -426,17 +411,13 @@ D=M
 A=A-1
 M=M-D
 
-// FRAME = LCL
 @LCL
 D=M
-// RET = * (FRAME-5)
-// RAM[13] = (LOCAL - 5)
 @5
 A=D-A
 D=M
 @13
 M=D
-// * ARG = pop()
 @SP
 M=M-1
 A=M
@@ -444,43 +425,34 @@ D=M
 @ARG
 A=M
 M=D
-		// SP = ARG+1
 @ARG
 D=M
 @SP
 M=D+1
-
-// THAT = *(FRAM-1)
 @LCL
 M=M-1
 A=M
 D=M
 @THAT
 M=D
-
-// THIS = *(FRAM-2)
 @LCL
 M=M-1
 A=M
 D=M
 @THIS
 M=D
-// ARG = *(FRAM-3)
 @LCL
 M=M-1
 A=M
 D=M
 @ARG
 M=D
-// LCL = *(FRAM-4)
 @LCL
 M=M-1
 A=M
 D=M
 @LCL
 M=D
-
-// goto RET
 @13
 A=M
 0;JMP
@@ -490,7 +462,7 @@ A=M
 @0
 D=A
 @Sys.init_End
-D; JEQ
+D;JEQ
 (Sys.init_Loop)
 @SP
 A=M
@@ -499,9 +471,10 @@ M=0
 M=M+1
 @Sys.init_Loop
 D=D-1;JNE
-(Sys.init_End) //
+(Sys.init_End)
 
 
+//C_PUSH
 @6
 D=A
 @SP
@@ -510,6 +483,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @8
 D=A
 @SP
@@ -558,10 +532,11 @@ A=M
 M=D
 @SP
 M=M+1
-// ARG = SP-n-5
 @SP
 D=M
-@2  // = n-5 NUM
+@2
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
@@ -572,10 +547,11 @@ D=M
 M=D
 // goto g
 @Class1.set
-0; JMP
+0;JMP
 // label return-address
 (Class1.set.ReturnAddress0)
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -588,6 +564,7 @@ A=A+1
 A=A+1
 M=D
 
+//C_PUSH
 @23
 D=A
 @SP
@@ -596,6 +573,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @15
 D=A
 @SP
@@ -644,10 +622,11 @@ A=M
 M=D
 @SP
 M=M+1
-// ARG = SP-n-5
 @SP
 D=M
-@2  // = n-5 NUM
+@2
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
@@ -658,10 +637,11 @@ D=M
 M=D
 // goto g
 @Class2.set
-0; JMP
+0;JMP
 // label return-address
 (Class2.set.ReturnAddress1)
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -714,10 +694,11 @@ A=M
 M=D
 @SP
 M=M+1
-// ARG = SP-n-5
 @SP
 D=M
-@0  // = n-5 NUM
+@0
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
@@ -728,7 +709,7 @@ D=M
 M=D
 // goto g
 @Class1.get
-0; JMP
+0;JMP
 // label return-address
 (Class1.get.ReturnAddress2)
 
@@ -772,10 +753,11 @@ A=M
 M=D
 @SP
 M=M+1
-// ARG = SP-n-5
 @SP
 D=M
-@0  // = n-5 NUM
+@0
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
@@ -786,7 +768,7 @@ D=M
 M=D
 // goto g
 @Class2.get
-0; JMP
+0;JMP
 // label return-address
 (Class2.get.ReturnAddress3)
 

@@ -39,6 +39,8 @@ M=D
 M=M+1
 @SP
 D=M
+@0
+D=D-A
 @5
 D=D-A
 @ARG
@@ -47,7 +49,7 @@ M=D
 D=M
 @LCL
 M=D
-@Sys.init.returnAdd
+@Sys.init
 0;JMP
 (Sys.init.returnAdd)
 
@@ -56,7 +58,7 @@ M=D
 @0
 D=A
 @Main.fibonacci_End
-D; JEQ
+D;JEQ
 (Main.fibonacci_Loop)
 @SP
 A=M
@@ -65,9 +67,10 @@ M=0
 M=M+1
 @Main.fibonacci_Loop
 D=D-1;JNE
-(Main.fibonacci_End) //
+(Main.fibonacci_End)
 
 
+//C_PUSH
 @0
 D=A
 @ARG
@@ -79,6 +82,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @2
 D=A
 @SP
@@ -122,6 +126,7 @@ D;JNE
 
 (Main.IF_TRUE)
 
+//C_PUSH
 @0
 D=A
 @ARG
@@ -133,17 +138,13 @@ M=D
 @SP
 M=M+1
 
-// FRAME = LCL
 @LCL
 D=M
-// RET = * (FRAME-5)
-// RAM[13] = (LOCAL - 5)
 @5
 A=D-A
 D=M
 @13
 M=D
-// * ARG = pop()
 @SP
 M=M-1
 A=M
@@ -151,49 +152,41 @@ D=M
 @ARG
 A=M
 M=D
-		// SP = ARG+1
 @ARG
 D=M
 @SP
 M=D+1
-
-// THAT = *(FRAM-1)
 @LCL
 M=M-1
 A=M
 D=M
 @THAT
 M=D
-
-// THIS = *(FRAM-2)
 @LCL
 M=M-1
 A=M
 D=M
 @THIS
 M=D
-// ARG = *(FRAM-3)
 @LCL
 M=M-1
 A=M
 D=M
 @ARG
 M=D
-// LCL = *(FRAM-4)
 @LCL
 M=M-1
 A=M
 D=M
 @LCL
 M=D
-
-// goto RET
 @13
 A=M
 0;JMP
 
 (Main.IF_FALSE)
 
+//C_PUSH
 @0
 D=A
 @ARG
@@ -205,6 +198,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @2
 D=A
 @SP
@@ -260,10 +254,11 @@ A=M
 M=D
 @SP
 M=M+1
-// ARG = SP-n-5
 @SP
 D=M
-@1  // = n-5 NUM
+@1
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
@@ -274,10 +269,11 @@ D=M
 M=D
 // goto g
 @Main.fibonacci
-0; JMP
+0;JMP
 // label return-address
 (Main.fibonacci.ReturnAddress0)
 
+//C_PUSH
 @0
 D=A
 @ARG
@@ -289,6 +285,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @1
 D=A
 @SP
@@ -344,10 +341,11 @@ A=M
 M=D
 @SP
 M=M+1
-// ARG = SP-n-5
 @SP
 D=M
-@1  // = n-5 NUM
+@1
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
@@ -358,7 +356,7 @@ D=M
 M=D
 // goto g
 @Main.fibonacci
-0; JMP
+0;JMP
 // label return-address
 (Main.fibonacci.ReturnAddress1)
 
@@ -369,17 +367,13 @@ D=M
 A=A-1
 M=D+M
 
-// FRAME = LCL
 @LCL
 D=M
-// RET = * (FRAME-5)
-// RAM[13] = (LOCAL - 5)
 @5
 A=D-A
 D=M
 @13
 M=D
-// * ARG = pop()
 @SP
 M=M-1
 A=M
@@ -387,43 +381,34 @@ D=M
 @ARG
 A=M
 M=D
-		// SP = ARG+1
 @ARG
 D=M
 @SP
 M=D+1
-
-// THAT = *(FRAM-1)
 @LCL
 M=M-1
 A=M
 D=M
 @THAT
 M=D
-
-// THIS = *(FRAM-2)
 @LCL
 M=M-1
 A=M
 D=M
 @THIS
 M=D
-// ARG = *(FRAM-3)
 @LCL
 M=M-1
 A=M
 D=M
 @ARG
 M=D
-// LCL = *(FRAM-4)
 @LCL
 M=M-1
 A=M
 D=M
 @LCL
 M=D
-
-// goto RET
 @13
 A=M
 0;JMP
@@ -433,7 +418,7 @@ A=M
 @0
 D=A
 @Sys.init_End
-D; JEQ
+D;JEQ
 (Sys.init_Loop)
 @SP
 A=M
@@ -442,9 +427,10 @@ M=0
 M=M+1
 @Sys.init_Loop
 D=D-1;JNE
-(Sys.init_End) //
+(Sys.init_End)
 
 
+//C_PUSH
 @4
 D=A
 @SP
@@ -493,10 +479,11 @@ A=M
 M=D
 @SP
 M=M+1
-// ARG = SP-n-5
 @SP
 D=M
-@1  // = n-5 NUM
+@1
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
@@ -507,7 +494,7 @@ D=M
 M=D
 // goto g
 @Main.fibonacci
-0; JMP
+0;JMP
 // label return-address
 (Main.fibonacci.ReturnAddress2)
 

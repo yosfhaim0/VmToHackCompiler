@@ -1,4 +1,5 @@
 
+//C_PUSH
 @1
 D=A
 @ARG
@@ -10,6 +11,7 @@ M=D
 @SP
 M=M+1
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -18,6 +20,7 @@ D=M
 A=A+1
 M=D
 
+//C_PUSH
 @0
 D=A
 @SP
@@ -25,6 +28,8 @@ A=M
 M=D
 @SP
 M=M+1
+
+//C_POP
 
 @SP
 M=M-1
@@ -34,6 +39,7 @@ D=M
 A=M 
 M=D
 
+//C_PUSH
 @1
 D=A
 @SP
@@ -41,6 +47,8 @@ A=M
 M=D
 @SP
 M=M+1
+
+//C_POP
 
 @SP
 M=M-1
@@ -51,6 +59,7 @@ A=M
 A=A+1
 M=D
 
+//C_PUSH
 @0
 D=A
 @ARG
@@ -62,6 +71,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @2
 D=A
 @SP
@@ -77,6 +87,8 @@ D=M
 A=A-1
 M=M-D
 
+//C_POP
+
 @SP
 M=M-1
 A=M
@@ -87,6 +99,7 @@ M=D
 
 (FibonacciSeries.MAIN_LOOP_START)
 
+//C_PUSH
 @0
 D=A
 @ARG
@@ -110,6 +123,7 @@ D;JNE
 
 (FibonacciSeries.COMPUTE_ELEMENT)
 
+//C_PUSH
 @0
 D=A
 @THAT
@@ -121,6 +135,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @1
 D=A
 @THAT
@@ -138,6 +153,8 @@ A=M
 D=M
 A=A-1
 M=D+M
+
+//C_POP
 
 @SP
 M=M-1
@@ -149,6 +166,7 @@ A=A+1
 A=A+1
 M=D
 
+//C_PUSH
 @1
 D=A
 @3
@@ -160,6 +178,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @1
 D=A
 @SP
@@ -175,6 +194,7 @@ D=M
 A=A-1
 M=D+M
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -183,6 +203,7 @@ D=M
 A=A+1
 M=D
 
+//C_PUSH
 @0
 D=A
 @ARG
@@ -194,6 +215,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @1
 D=A
 @SP
@@ -208,6 +230,8 @@ A=M
 D=M
 A=A-1
 M=M-D
+
+//C_POP
 
 @SP
 M=M-1

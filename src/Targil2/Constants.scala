@@ -248,22 +248,24 @@ object Constants {
 
   val PUSH_STATIC: String =
     """
-      |@{index}
+      |@file.{index}
       |D=M
       |@SP
-      |M=M+1
-      |A=M-1
+      |A=M
       |M=D
+      |@SP
+      |M=M+1
       |""".stripMargin
 
   val POP_STATIC: String =
     """
       |@SP
-      |M=M-1
-      |A=M
+      |A=M-1
       |D=M
-      |@{index}
+      |@file.{index}
       |M=D
+      |@SP
+      |M=M-1
       |""".stripMargin
 
   val PUSH_TEMP: String =
@@ -313,6 +315,7 @@ object Constants {
   //'`+index' - invalid command, need to support with code
   val POP_LCL_ARG_THIS_THAT: String =
     """
+      |
       |@SP
       |M=M-1
       |A=M
@@ -384,10 +387,11 @@ object Constants {
       |M=D
       |@SP
       |M=M+1
-      |// ARG = SP-n-5
       |@SP
       |D=M
-      |@numARG  // = n-5 NUM
+      |@numARG
+      |D=D-A
+      |@5
       |D=D-A
       |@ARG
       |M=D
@@ -398,13 +402,13 @@ object Constants {
       |M=D
       |// goto g
       |@NameOfFunc
-      |0; JMP
+      |0;JMP
       |// label return-address
       |(NameOfFunc.ReturnAddress(index))
       |""".stripMargin
-  val RETURN: String =
+  val ret: String =
     """
-      |// FRAME = LCL
+      // FRAME = LCL
       |@LCL
       |D=M
       |// RET = * (FRAME-5)
@@ -414,6 +418,7 @@ object Constants {
       |D=M
       |@13
       |M=D
+      |
       |// * ARG = pop()
       |@SP
       |M=M-1
@@ -422,7 +427,7 @@ object Constants {
       |@ARG
       |A=M
       |M=D
-      |		// SP = ARG+1
+      |// SP = ARG+1
       |@ARG
       |D=M
       |@SP
@@ -457,8 +462,55 @@ object Constants {
       |D=M
       |@LCL
       |M=D
-      |
       |// goto RET
+      |@13
+      |A=M
+      |0;JMP
+      |""".stripMargin
+  var RETURN:String=
+    """
+      |@LCL
+      |D=M
+      |@5
+      |A=D-A
+      |D=M
+      |@13
+      |M=D
+      |@SP
+      |M=M-1
+      |A=M
+      |D=M
+      |@ARG
+      |A=M
+      |M=D
+      |@ARG
+      |D=M
+      |@SP
+      |M=D+1
+      |@LCL
+      |M=M-1
+      |A=M
+      |D=M
+      |@THAT
+      |M=D
+      |@LCL
+      |M=M-1
+      |A=M
+      |D=M
+      |@THIS
+      |M=D
+      |@LCL
+      |M=M-1
+      |A=M
+      |D=M
+      |@ARG
+      |M=D
+      |@LCL
+      |M=M-1
+      |A=M
+      |D=M
+      |@LCL
+      |M=D
       |@13
       |A=M
       |0;JMP
@@ -470,7 +522,7 @@ object Constants {
       |@NumOfLocal
       |D=A
       |@NameOfFunc_End
-      |D; JEQ
+      |D;JEQ
       |(NameOfFunc_Loop)
       |@SP
       |A=M
@@ -479,7 +531,7 @@ object Constants {
       |M=M+1
       |@NameOfFunc_Loop
       |D=D-1;JNE
-      |(NameOfFunc_End) //
+      |(NameOfFunc_End)
       |
       |""".stripMargin
   val BOOTSTRAPPING: String =
@@ -524,6 +576,8 @@ object Constants {
        |M=M+1
        |@SP
        |D=M
+       |@0
+       |D=D-A
        |@5
        |D=D-A
        |@ARG
@@ -532,7 +586,7 @@ object Constants {
        |D=M
        |@LCL
        |M=D
-       |@Sys.init.returnAdd
+       |@Sys.init
        |0;JMP
        |(Sys.init.returnAdd)
        |""".stripMargin

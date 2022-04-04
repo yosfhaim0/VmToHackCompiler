@@ -4,7 +4,7 @@
 @0
 D=A
 @Sys.init_End
-D; JEQ
+D;JEQ
 (Sys.init_Loop)
 @SP
 A=M
@@ -13,9 +13,10 @@ M=0
 M=M+1
 @Sys.init_Loop
 D=D-1;JNE
-(Sys.init_End) //
+(Sys.init_End)
 
 
+//C_PUSH
 @4000
 D=A
 @SP
@@ -24,6 +25,7 @@ M=D
 @SP
 M=M+1
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -31,6 +33,7 @@ D=M
 @3 
 M=D
 
+//C_PUSH
 @5000
 D=A
 @SP
@@ -39,6 +42,7 @@ M=D
 @SP
 M=M+1
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -87,10 +91,11 @@ A=M
 M=D
 @SP
 M=M+1
-// ARG = SP-n-5
 @SP
 D=M
-@0  // = n-5 NUM
+@0
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
@@ -101,10 +106,11 @@ D=M
 M=D
 // goto g
 @Sys.main
-0; JMP
+0;JMP
 // label return-address
 (Sys.main.ReturnAddress0)
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -127,7 +133,7 @@ M=D
 @5
 D=A
 @Sys.main_End
-D; JEQ
+D;JEQ
 (Sys.main_Loop)
 @SP
 A=M
@@ -136,9 +142,10 @@ M=0
 M=M+1
 @Sys.main_Loop
 D=D-1;JNE
-(Sys.main_End) //
+(Sys.main_End)
 
 
+//C_PUSH
 @4001
 D=A
 @SP
@@ -147,6 +154,7 @@ M=D
 @SP
 M=M+1
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -154,6 +162,7 @@ D=M
 @3 
 M=D
 
+//C_PUSH
 @5001
 D=A
 @SP
@@ -162,6 +171,7 @@ M=D
 @SP
 M=M+1
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -170,6 +180,7 @@ D=M
 A=A+1
 M=D
 
+//C_PUSH
 @200
 D=A
 @SP
@@ -178,6 +189,8 @@ M=D
 @SP
 M=M+1
 
+//C_POP
+
 @SP
 M=M-1
 A=M
@@ -187,6 +200,7 @@ A=M
 A=A+1
 M=D
 
+//C_PUSH
 @40
 D=A
 @SP
@@ -195,6 +209,8 @@ M=D
 @SP
 M=M+1
 
+//C_POP
+
 @SP
 M=M-1
 A=M
@@ -205,6 +221,7 @@ A=A+1
 A=A+1
 M=D
 
+//C_PUSH
 @6
 D=A
 @SP
@@ -213,6 +230,8 @@ M=D
 @SP
 M=M+1
 
+//C_POP
+
 @SP
 M=M-1
 A=M
@@ -224,6 +243,7 @@ A=A+1
 A=A+1
 M=D
 
+//C_PUSH
 @123
 D=A
 @SP
@@ -272,10 +292,11 @@ A=M
 M=D
 @SP
 M=M+1
-// ARG = SP-n-5
 @SP
 D=M
-@1  // = n-5 NUM
+@1
+D=D-A
+@5
 D=D-A
 @ARG
 M=D
@@ -286,10 +307,11 @@ D=M
 M=D
 // goto g
 @Sys.add12
-0; JMP
+0;JMP
 // label return-address
 (Sys.add12.ReturnAddress1)
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -302,6 +324,7 @@ A=A+1
 A=A+1
 M=D
 
+//C_PUSH
 @0
 D=A
 @LCL
@@ -313,6 +336,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @1
 D=A
 @LCL
@@ -324,6 +348,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @2
 D=A
 @LCL
@@ -335,6 +360,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @3
 D=A
 @LCL
@@ -346,6 +372,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @4
 D=A
 @LCL
@@ -385,17 +412,13 @@ D=M
 A=A-1
 M=D+M
 
-// FRAME = LCL
 @LCL
 D=M
-// RET = * (FRAME-5)
-// RAM[13] = (LOCAL - 5)
 @5
 A=D-A
 D=M
 @13
 M=D
-// * ARG = pop()
 @SP
 M=M-1
 A=M
@@ -403,43 +426,34 @@ D=M
 @ARG
 A=M
 M=D
-		// SP = ARG+1
 @ARG
 D=M
 @SP
 M=D+1
-
-// THAT = *(FRAM-1)
 @LCL
 M=M-1
 A=M
 D=M
 @THAT
 M=D
-
-// THIS = *(FRAM-2)
 @LCL
 M=M-1
 A=M
 D=M
 @THIS
 M=D
-// ARG = *(FRAM-3)
 @LCL
 M=M-1
 A=M
 D=M
 @ARG
 M=D
-// LCL = *(FRAM-4)
 @LCL
 M=M-1
 A=M
 D=M
 @LCL
 M=D
-
-// goto RET
 @13
 A=M
 0;JMP
@@ -449,7 +463,7 @@ A=M
 @0
 D=A
 @Sys.add12_End
-D; JEQ
+D;JEQ
 (Sys.add12_Loop)
 @SP
 A=M
@@ -458,9 +472,10 @@ M=0
 M=M+1
 @Sys.add12_Loop
 D=D-1;JNE
-(Sys.add12_End) //
+(Sys.add12_End)
 
 
+//C_PUSH
 @4002
 D=A
 @SP
@@ -469,6 +484,7 @@ M=D
 @SP
 M=M+1
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -476,6 +492,7 @@ D=M
 @3 
 M=D
 
+//C_PUSH
 @5002
 D=A
 @SP
@@ -484,6 +501,7 @@ M=D
 @SP
 M=M+1
 
+//C_POP
 @SP
 M=M-1
 A=M
@@ -492,6 +510,7 @@ D=M
 A=A+1
 M=D
 
+//C_PUSH
 @0
 D=A
 @ARG
@@ -503,6 +522,7 @@ M=D
 @SP
 M=M+1
 
+//C_PUSH
 @12
 D=A
 @SP
@@ -518,17 +538,13 @@ D=M
 A=A-1
 M=D+M
 
-// FRAME = LCL
 @LCL
 D=M
-// RET = * (FRAME-5)
-// RAM[13] = (LOCAL - 5)
 @5
 A=D-A
 D=M
 @13
 M=D
-// * ARG = pop()
 @SP
 M=M-1
 A=M
@@ -536,43 +552,34 @@ D=M
 @ARG
 A=M
 M=D
-		// SP = ARG+1
 @ARG
 D=M
 @SP
 M=D+1
-
-// THAT = *(FRAM-1)
 @LCL
 M=M-1
 A=M
 D=M
 @THAT
 M=D
-
-// THIS = *(FRAM-2)
 @LCL
 M=M-1
 A=M
 D=M
 @THIS
 M=D
-// ARG = *(FRAM-3)
 @LCL
 M=M-1
 A=M
 D=M
 @ARG
 M=D
-// LCL = *(FRAM-4)
 @LCL
 M=M-1
 A=M
 D=M
 @LCL
 M=D
-
-// goto RET
 @13
 A=M
 0;JMP

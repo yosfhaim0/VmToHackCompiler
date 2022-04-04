@@ -1,7 +1,7 @@
 package Targil2
 
-import Targil1.Constants.MemAccCmd._
-import Targil1.Constants._
+import Targil2.Constants.MemAccCmd._
+import Targil2.Constants._
 
 import java.io._
 
@@ -82,7 +82,7 @@ class CodeWriter(asmFile: FileWriter, File_Name: String) {
             case STAT => BuildAll(POP_STATIC, index)
           }
       }
-    asmFile.write(toWrite)
+    asmFile.write("\n"+"//"+command+toWrite)
   }
 
   private def BuildPushRam(asmCmd: String, index: Int, segment: String): String = {
@@ -94,6 +94,7 @@ class CodeWriter(asmFile: FileWriter, File_Name: String) {
   private def BuildAll(asmCmd: String, index: Int): String = {
     asmCmd
       .replace("{index}", index.toString)
+      .replace("file",currentFileName)
   }
 
   private def BuildPopRam(asmCmd: String, index: Int, segment: String): String = {
