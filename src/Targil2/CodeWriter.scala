@@ -134,7 +134,7 @@ class CodeWriter(asmFile: FileWriter, File_Name: String) {
     asmFile.write(Constants.CALL
       .replace("NameOfFunc", s"$functionName")
       .replace("numARG", s"$numOfArgument")
-      .replace("index", s"$callCounter"))
+      .replace("(index)", s"$callCounter"))
     callCounterIncrement()
   }
 

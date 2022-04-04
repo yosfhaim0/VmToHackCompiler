@@ -407,7 +407,6 @@ object Constants {
       |// FRAME = LCL
       |@LCL
       |D=M
-      |
       |// RET = * (FRAME-5)
       |// RAM[13] = (LOCAL - 5)
       |@5
@@ -415,7 +414,6 @@ object Constants {
       |D=M
       |@13
       |M=D
-      |
       |// * ARG = pop()
       |@SP
       |M=M-1
@@ -471,17 +469,17 @@ object Constants {
       |(NameOfFunc)
       |@NumOfLocal
       |D=A
-      |@NameOfFunc.End
+      |@NameOfFunc_End
       |D; JEQ
-      |(NameOfFunc.Loop)
+      |(NameOfFunc_Loop)
       |@SP
       |A=M
       |M=0
       |@SP
       |M=M+1
-      |@NameOfFunc.Loop
+      |@NameOfFunc_Loop
       |D=D-1;JNE
-      |(NameOfFunc.End) //
+      |(NameOfFunc_End) //
       |
       |""".stripMargin
   val BOOTSTRAPPING: String =
