@@ -3,6 +3,12 @@ package Targil2
 import java.io.{File, FileWriter}
 import java.util
 
+/**
+ * 150060.3.5782
+ * targil02
+ * YOSEF HAIM AMRUSI-314897208-
+ * AHRON KREMER 034706382
+ */
 object Tar2 {
 
   def getListOfVmFiles(root: String): Unit = {
