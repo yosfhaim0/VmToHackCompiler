@@ -177,7 +177,7 @@ object Constants {
   val LT: String =
     """
       |@SP
-      |M=M-1
+      |M=M-1  //pop()
       |A=M
       |D=M
       |@SP
@@ -345,6 +345,7 @@ object Constants {
       |D;JNE
       |""".stripMargin
 
+      //call funcname n
   val CALL: String =
     """
       |// push return-address
@@ -387,6 +388,7 @@ object Constants {
       |M=D
       |@SP
       |M=M+1
+      |// ARG = SP-n-5
       |@SP
       |D=M
       |@numARG
@@ -469,13 +471,17 @@ object Constants {
       |""".stripMargin
   var RETURN:String=
     """
+      |//fream=lcl
       |@LCL
       |D=M
+      |//ret=(fream-5)
       |@5
       |A=D-A
       |D=M
       |@13
+      |//ram[13]=(fream/lcl-5)
       |M=D
+      |//arg=pop()
       |@SP
       |M=M-1
       |A=M
